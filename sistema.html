@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Evaluación de Limpieza - LYAC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --lyac-primary: #2c3e50;
+            --lyac-secondary: #3498db;
+            --lyac-accent: #2ecc71;
+            --lyac-light: #ecf0f1;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background-color: var(--lyac-primary);
+        }
+        
+        .lyac-header {
+            background: linear-gradient(135deg, var(--lyac-primary) 0%, var(--lyac-secondary) 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .ranking-card {
+            transition: transform 0.3s;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .ranking-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .first-place {
+            background: linear-gradient(135deg, #ffd700 0%, #fff8c5 100%);
+        }
+        
+        .second-place {
+            background: linear-gradient(135deg, #c0c0c0 0%, #f0f0f0 100%);
+        }
+        
+        .third-place {
+            background: linear-gradient(135deg, #cd7f32 0%, #f8e3c5 100%);
+        }
+        
+        .position-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .calendar-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .calendar-day {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+        }
+        
+        .clean-day {
+            background-color: var(--lyac-accent);
+            color: white;
+        }
+        
+        .dirty-day {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .neutral-day {
+            background-color: #f0f0f0;
+        }
+        
+        .lyac-btn {
+            background-color: var(--lyac-secondary);
+            color: white;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .lyac-btn:hover {
+            background-color: var(--lyac-primary);
+            color: white;
+        }
+        
+        .classroom-card {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .classroom-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer {
+            background-color: var(--lyac-primary);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-school me-2"></i>LYAC Limpieza
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#classrooms"><i class="fas fa-door-open me-1"></i> Salones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#calendar"><i class="fas fa-calendar-alt me-1"></i> Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i> Estadísticas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="lyac-header">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Sistema de Evaluación LYAC</h1>
+            <p class="lead">Ranking de limpieza de aulas</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Top Ranking Section -->
+        <section class="mb-5">
+            <h2 class="mb-4 text-center">Top 3 Salones Más Limpios</h2>
+            <div class="row">
+                <!-- First Place -->
+                <div class="col-md-4 mb-4">
+                    <div class="card ranking-card first-place">
+                        <div class="card-body text-center position-relative">
+                            <span class="position-badge" style="background-color: #ffd700;">1</span>
+                            <i class="fas fa-trophy display-4 mb-3" style="color: #ffd700;"></i>
+                            <h3 class="card-title">Salón 101</h3>
+                            <p class="card-text">Puntaje: 98/100</p>
+                            <p class="card-text">Días consecutivos limpios: 15</p>
+                            <button class="btn lyac-btn">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Place -->
+                <div class="col-md-4 mb-4">
+                    <div class="card ranking-card second-place">
+                        <div class="card-body text-center position-relative">
+                            <span class="position-badge" style="background-color: #c0c0c0;">2</span>
+                            <i class="fas fa-medal display-4 mb-3" style="color: #c0c0c0;"></i>
+                            <h3 class="card-title">Salón 203</h3>
+                            <p class="card-text">Puntaje: 94/100</p>
+                            <p class="card-text">Días consecutivos limpios: 12</p>
+                            <button class="btn lyac-btn">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Third Place -->
+                <div class="col-md-4 mb-4">
+                    <div class="card ranking-card third-place">
+                        <div class="card-body text-center position-relative">
+                            <span class="position-badge" style="background-color: #cd7f32;">3</span>
+                            <i class="fas fa-award display-4 mb-3" style="color: #cd7f32;"></i>
+                            <h3 class="card-title">Salón 105</h3>
+                            <p class="card-text">Puntaje: 91/100</p>
+                            <p class="card-text">Días consecutivos limpios: 10</p>
+                            <button class="btn lyac-btn">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Classroom List Section -->
+        <section id="classrooms" class="mb-5">
+            <h2 class="mb-4 text-center">Todos los Salones</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 101</h5>
+                            <p class="card-text">Puesto: 1</p>
+                            <p class="card-text">Responsable: Prof. García</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 203</h5>
+                            <p class="card-text">Puesto: 2</p>
+                            <p class="card-text">Responsable: Prof. Martínez</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 105</h5>
+                            <p class="card-text">Puesto: 3</p>
+                            <p class="card-text">Responsable: Prof. Rodríguez</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 204</h5>
+                            <p class="card-text">Puesto: 4</p>
+                            <p class="card-text">Responsable: Prof. López</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 302</h5>
+                            <p class="card-text">Puesto: 5</p>
+                            <p class="card-text">Responsable: Prof. González</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card classroom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Salón 110</h5>
+                            <p class="card-text">Puesto: 6</p>
+                            <p class="card-text">Responsable: Prof. Hernández</p>
+                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section id="calendar" class="mb-5">
+            <h2 class="mb-4 text-center">Calendario de Limpieza - Salón 101</h2>
+            <div class="calendar-container">
+                <div class="d-flex justify-content-between mb-4">
+                    <button class="btn lyac-btn"><i class="fas fa-chevron-left me-1"></i> Mes anterior</button>
+                    <h3 class="text-center">Noviembre 2023</h3>
+                    <button class="btn lyac-btn">Mes siguiente <i class="fas fa-chevron-right ms-1"></i></button>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day fw-bold">Lun</div>
+                    <div class="col calendar-day fw-bold">Mar</div>
+                    <div class="col calendar-day fw-bold">Mié</div>
+                    <div class="col calendar-day fw-bold">Jue</div>
+                    <div class="col calendar-day fw-bold">Vie</div>
+                    <div class="col calendar-day fw-bold">Sáb</div>
+                    <div class="col calendar-day fw-bold">Dom</div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day neutral-day">30</div>
+                    <div class="col calendar-day neutral-day">31</div>
+                    <div class="col calendar-day clean-day">1</div>
+                    <div class="col calendar-day clean-day">2</div>
+                    <div class="col calendar-day clean-day">3</div>
+                    <div class="col calendar-day neutral-day">4</div>
+                    <div class="col calendar-day neutral-day">5</div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day clean-day">6</div>
+                    <div class="col calendar-day clean-day">7</div>
+                    <div class="col calendar-day clean-day">8</div>
+                    <div class="col calendar-day clean-day">9</div>
+                    <div class="col calendar-day clean-day">10</div>
+                    <div class="col calendar-day neutral-day">11</div>
+                    <div class="col calendar-day neutral-day">12</div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day clean-day">13</div>
+                    <div class="col calendar-day clean-day">14</div>
+                    <div class="col calendar-day clean-day">15</div>
+                    <div class="col calendar-day dirty-day">16</div>
+                    <div class="col calendar-day clean-day">17</div>
+                    <div class="col calendar-day neutral-day">18</div>
+                    <div class="col calendar-day neutral-day">19</div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day clean-day">20</div>
+                    <div class="col calendar-day clean-day">21</div>
+                    <div class="col calendar-day clean-day">22</div>
+                    <div class="col calendar-day clean-day">23</div>
+                    <div class="col calendar-day clean-day">24</div>
+                    <div class="col calendar-day neutral-day">25</div>
+                    <div class="col calendar-day neutral-day">26</div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col calendar-day clean-day">27</div>
+                    <div class="col calendar-day clean-day">28</div>
+                    <div class="col calendar-day clean-day">29</div>
+                    <div class="col calendar-day clean-day">30</div>
+                    <div class="col calendar-day neutral-day">1</div>
+                    <div class="col calendar-day neutral-day">2</div>
+                    <div class="col calendar-day neutral-day">3</div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="clean-day me-2" style="width: 20px; height: 20px;"></div>
+                        <span>Día limpio</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="dirty-day me-2" style="width: 20px; height: 20px;"></div>
+                        <span>Día con problemas de limpieza</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="neutral-day me-2" style="width: 20px; height: 20px;"></div>
+                        <span>Sin datos / Fin de semana</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>Sistema de Evaluación de Limpieza de Aulas - LYAC</p>
+            <p>© 2023 - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Funcionalidad básica para el calendario
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simular datos de salones (en una aplicación real, estos datos vendrían de una base de datos)
+            const classrooms = [
+                { id: 1, name: 'Salón 101', score: 98, position: 1, consecutiveDays: 15 },
+                { id: 2, name: 'Salón 203', score: 94, position: 2, consecutiveDays: 12 },
+                { id: 3, name: 'Salón 105', score: 91, position: 3, consecutiveDays: 10 },
+                { id: 4, name: 'Salón 204', score: 87, position: 4, consecutiveDays: 8 },
+                { id: 5, name: 'Salón 302', score: 85, position: 5, consecutiveDays: 7 },
+                { id: 6, name: 'Salón 110', score: 82, position: 6, consecutiveDays: 5 }
+            ];
+            
+            // Aquí se podría agregar más funcionalidad JavaScript para una aplicación real
+            console.log('Sistema de evaluación de limpieza cargado');
+            
+            // Ejemplo: Al hacer clic en un botón "Ver calendario" de un salón
+            const calendarButtons = document.querySelectorAll('.card .btn');
+            calendarButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.card');
+                    const title = card.querySelector('.card-title').textContent;
+                    alert(`Mostrando calendario de limpieza para: ${title}`);
+                    // En una aplicación real, aquí cargaríamos los datos del calendario para ese salón
+                });
+            });
+        });
+    </script>
+</body>
+</html>

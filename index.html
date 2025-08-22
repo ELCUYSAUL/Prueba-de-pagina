@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Evaluación de Limpieza - LYAC</title>
+    <title>Bienvenido a LYAC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -15,399 +15,258 @@
         }
         
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .navbar {
-            background-color: var(--lyac-primary);
-        }
-        
-        .lyac-header {
             background: linear-gradient(135deg, var(--lyac-primary) 0%, var(--lyac-secondary) 100%);
             color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 10px 10px;
-        }
-        
-        .ranking-card {
-            transition: transform 0.3s;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .ranking-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .first-place {
-            background: linear-gradient(135deg, #ffd700 0%, #fff8c5 100%);
-        }
-        
-        .second-place {
-            background: linear-gradient(135deg, #c0c0c0 0%, #f0f0f0 100%);
-        }
-        
-        .third-place {
-            background: linear-gradient(135deg, #cd7f32 0%, #f8e3c5 100%);
-        }
-        
-        .position-badge {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .calendar-container {
-            background-color: white;
-            border-radius: 10px;
+            align-items: center;
+            text-align: center;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
         }
         
-        .calendar-day {
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            margin: 2px;
-            cursor: pointer;
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            z-index: -1;
         }
         
-        .clean-day {
+        .welcome-container {
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn-lyac {
+            background-color: white;
+            color: var(--lyac-primary);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .btn-lyac:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             background-color: var(--lyac-accent);
             color: white;
         }
         
-        .dirty-day {
-            background-color: #e74c3c;
-            color: white;
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            flex-wrap: wrap;
         }
         
-        .neutral-day {
-            background-color: #f0f0f0;
-        }
-        
-        .lyac-btn {
-            background-color: var(--lyac-secondary);
-            color: white;
-            border: none;
+        .feature {
+            flex: 0 0 30%;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             transition: all 0.3s;
         }
         
-        .lyac-btn:hover {
-            background-color: var(--lyac-primary);
+        .feature:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--lyac-accent);
+        }
+        
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
             color: white;
+            animation: float 6s infinite ease-in-out;
         }
         
-        .classroom-card {
-            transition: all 0.3s;
-            cursor: pointer;
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
         }
         
-        .classroom-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        .footer {
-            background-color: var(--lyac-primary);
-            color: white;
-            padding: 1.5rem 0;
-            margin-top: 2rem;
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Posicionamiento de iconos flotantes */
+        .icon-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .icon-2 { top: 20%; right: 15%; animation-delay: 1s; }
+        .icon-3 { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .icon-4 { bottom: 20%; right: 25%; animation-delay: 3s; }
+        .icon-5 { top: 40%; left: 5%; animation-delay: 4s; }
+        .icon-6 { top: 60%; right: 10%; animation-delay: 5s; }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            p {
+                font-size: 1.1rem;
+            }
+            
+            .feature {
+                flex: 0 0 100%;
+            }
+            
+            .welcome-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-school me-2"></i>LYAC Limpieza
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#classrooms"><i class="fas fa-door-open me-1"></i> Salones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#calendar"><i class="fas fa-calendar-alt me-1"></i> Calendario</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i> Estadísticas</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="floating-icons">
+        <div class="floating-icon icon-1"><i class="fas fa-school"></i></div>
+        <div class="floating-icon icon-2"><i class="fas fa-broom"></i></div>
+        <div class="floating-icon icon-3"><i class="fas fa-spray-can"></i></div>
+        <div class="floating-icon icon-4"><i class="fas fa-hands-wash"></i></div>
+        <div class="floating-icon icon-5"><i class="fas fa-trophy"></i></div>
+        <div class="floating-icon icon-6"><i class="fas fa-clipboard-list"></i></div>
+    </div>
+    
+    <div class="welcome-container">
+        <div class="logo">
+            <i class="fas fa-school"></i>
         </div>
-    </nav>
-
-    <!-- Header -->
-    <div class="lyac-header">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold">Sistema de Evaluación LYAC</h1>
-            <p class="lead">Ranking de limpieza de aulas</p>
+        
+        <h1>Bienvenido a <span style="color: var(--lyac-accent);">LYAC</span></h1>
+        
+        <p>Sistema de Evaluación de Limpieza de Aulas</p>
+        
+        <p>LYAC es una plataforma diseñada para fomentar y reconocer la limpieza en los salones de clase. 
+           Nuestro sistema permite evaluar, rankear y motivar a los estudiantes a mantener sus espacios 
+           de aprendizaje limpios y organizados. Creado por Vicky</p>
+        
+        <a href="sistema.html" class="btn-lyac">
+            <i class="fas fa-door-open me-2"></i> Ingresar al Sistema
+        </a>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-trophy"></i>
+                <h3>Ranking</h3>
+                <p>Clasificación de los salones más limpios</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Seguimiento</h3>
+                <p>Registro diario de limpieza</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Estadísticas</h3>
+                <p>Reportes y análisis de progreso</p>
+            </div>
         </div>
     </div>
-
-    <div class="container">
-        <!-- Top Ranking Section -->
-        <section class="mb-5">
-            <h2 class="mb-4 text-center">Top 3 Salones Más Limpios</h2>
-            <div class="row">
-                <!-- First Place -->
-                <div class="col-md-4 mb-4">
-                    <div class="card ranking-card first-place">
-                        <div class="card-body text-center position-relative">
-                            <span class="position-badge" style="background-color: #ffd700;">1</span>
-                            <i class="fas fa-trophy display-4 mb-3" style="color: #ffd700;"></i>
-                            <h3 class="card-title">Salón 101</h3>
-                            <p class="card-text">Puntaje: 98/100</p>
-                            <p class="card-text">Días consecutivos limpios: 15</p>
-                            <button class="btn lyac-btn">Ver detalles</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Second Place -->
-                <div class="col-md-4 mb-4">
-                    <div class="card ranking-card second-place">
-                        <div class="card-body text-center position-relative">
-                            <span class="position-badge" style="background-color: #c0c0c0;">2</span>
-                            <i class="fas fa-medal display-4 mb-3" style="color: #c0c0c0;"></i>
-                            <h3 class="card-title">Salón 203</h3>
-                            <p class="card-text">Puntaje: 94/100</p>
-                            <p class="card-text">Días consecutivos limpios: 12</p>
-                            <button class="btn lyac-btn">Ver detalles</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Third Place -->
-                <div class="col-md-4 mb-4">
-                    <div class="card ranking-card third-place">
-                        <div class="card-body text-center position-relative">
-                            <span class="position-badge" style="background-color: #cd7f32;">3</span>
-                            <i class="fas fa-award display-4 mb-3" style="color: #cd7f32;"></i>
-                            <h3 class="card-title">Salón 105</h3>
-                            <p class="card-text">Puntaje: 91/100</p>
-                            <p class="card-text">Días consecutivos limpios: 10</p>
-                            <button class="btn lyac-btn">Ver detalles</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Classroom List Section -->
-        <section id="classrooms" class="mb-5">
-            <h2 class="mb-4 text-center">Todos los Salones</h2>
-            <div class="row">
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 101</h5>
-                            <p class="card-text">Puesto: 1</p>
-                            <p class="card-text">Responsable: Prof. García</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 203</h5>
-                            <p class="card-text">Puesto: 2</p>
-                            <p class="card-text">Responsable: Prof. Martínez</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 105</h5>
-                            <p class="card-text">Puesto: 3</p>
-                            <p class="card-text">Responsable: Prof. Rodríguez</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 204</h5>
-                            <p class="card-text">Puesto: 4</p>
-                            <p class="card-text">Responsable: Prof. López</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 302</h5>
-                            <p class="card-text">Puesto: 5</p>
-                            <p class="card-text">Responsable: Prof. González</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card classroom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Salón 110</h5>
-                            <p class="card-text">Puesto: 6</p>
-                            <p class="card-text">Responsable: Prof. Hernández</p>
-                            <button class="btn lyac-btn btn-sm">Ver calendario</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Calendar Section -->
-        <section id="calendar" class="mb-5">
-            <h2 class="mb-4 text-center">Calendario de Limpieza - Salón 101</h2>
-            <div class="calendar-container">
-                <div class="d-flex justify-content-between mb-4">
-                    <button class="btn lyac-btn"><i class="fas fa-chevron-left me-1"></i> Mes anterior</button>
-                    <h3 class="text-center">Noviembre 2023</h3>
-                    <button class="btn lyac-btn">Mes siguiente <i class="fas fa-chevron-right ms-1"></i></button>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day fw-bold">Lun</div>
-                    <div class="col calendar-day fw-bold">Mar</div>
-                    <div class="col calendar-day fw-bold">Mié</div>
-                    <div class="col calendar-day fw-bold">Jue</div>
-                    <div class="col calendar-day fw-bold">Vie</div>
-                    <div class="col calendar-day fw-bold">Sáb</div>
-                    <div class="col calendar-day fw-bold">Dom</div>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day neutral-day">30</div>
-                    <div class="col calendar-day neutral-day">31</div>
-                    <div class="col calendar-day clean-day">1</div>
-                    <div class="col calendar-day clean-day">2</div>
-                    <div class="col calendar-day clean-day">3</div>
-                    <div class="col calendar-day neutral-day">4</div>
-                    <div class="col calendar-day neutral-day">5</div>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day clean-day">6</div>
-                    <div class="col calendar-day clean-day">7</div>
-                    <div class="col calendar-day clean-day">8</div>
-                    <div class="col calendar-day clean-day">9</div>
-                    <div class="col calendar-day clean-day">10</div>
-                    <div class="col calendar-day neutral-day">11</div>
-                    <div class="col calendar-day neutral-day">12</div>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day clean-day">13</div>
-                    <div class="col calendar-day clean-day">14</div>
-                    <div class="col calendar-day clean-day">15</div>
-                    <div class="col calendar-day dirty-day">16</div>
-                    <div class="col calendar-day clean-day">17</div>
-                    <div class="col calendar-day neutral-day">18</div>
-                    <div class="col calendar-day neutral-day">19</div>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day clean-day">20</div>
-                    <div class="col calendar-day clean-day">21</div>
-                    <div class="col calendar-day clean-day">22</div>
-                    <div class="col calendar-day clean-day">23</div>
-                    <div class="col calendar-day clean-day">24</div>
-                    <div class="col calendar-day neutral-day">25</div>
-                    <div class="col calendar-day neutral-day">26</div>
-                </div>
-                
-                <div class="row mb-2">
-                    <div class="col calendar-day clean-day">27</div>
-                    <div class="col calendar-day clean-day">28</div>
-                    <div class="col calendar-day clean-day">29</div>
-                    <div class="col calendar-day clean-day">30</div>
-                    <div class="col calendar-day neutral-day">1</div>
-                    <div class="col calendar-day neutral-day">2</div>
-                    <div class="col calendar-day neutral-day">3</div>
-                </div>
-                
-                <div class="mt-4">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="clean-day me-2" style="width: 20px; height: 20px;"></div>
-                        <span>Día limpio</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="dirty-day me-2" style="width: 20px; height: 20px;"></div>
-                        <span>Día con problemas de limpieza</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="neutral-day me-2" style="width: 20px; height: 20px;"></div>
-                        <span>Sin datos / Fin de semana</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container">
-            <p>Sistema de Evaluación de Limpieza de Aulas - LYAC</p>
-            <p>© 2023 - Todos los derechos reservados</p>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Funcionalidad básica para el calendario
+        // Efecto de escritura para el título
         document.addEventListener('DOMContentLoaded', function() {
-            // Simular datos de salones (en una aplicación real, estos datos vendrían de una base de datos)
-            const classrooms = [
-                { id: 1, name: 'Salón 101', score: 98, position: 1, consecutiveDays: 15 },
-                { id: 2, name: 'Salón 203', score: 94, position: 2, consecutiveDays: 12 },
-                { id: 3, name: 'Salón 105', score: 91, position: 3, consecutiveDays: 10 },
-                { id: 4, name: 'Salón 204', score: 87, position: 4, consecutiveDays: 8 },
-                { id: 5, name: 'Salón 302', score: 85, position: 5, consecutiveDays: 7 },
-                { id: 6, name: 'Salón 110', score: 82, position: 6, consecutiveDays: 5 }
-            ];
+            const welcomeText = "Bienvenido a LYAC";
+            const welcomeElement = document.querySelector('h1');
             
-            // Aquí se podría agregar más funcionalidad JavaScript para una aplicación real
-            console.log('Sistema de evaluación de limpieza cargado');
-            
-            // Ejemplo: Al hacer clic en un botón "Ver calendario" de un salón
-            const calendarButtons = document.querySelectorAll('.card .btn');
-            calendarButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const card = this.closest('.card');
-                    const title = card.querySelector('.card-title').textContent;
-                    alert(`Mostrando calendario de limpieza para: ${title}`);
-                    // En una aplicación real, aquí cargaríamos los datos del calendario para ese salón
-                });
-            });
+            // Solo animar si no hemos hecho ya la animación
+            if (!welcomeElement.classList.contains('animated')) {
+                welcomeElement.innerHTML = '';
+                welcomeElement.classList.add('animated');
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < welcomeText.length) {
+                        welcomeElement.innerHTML += welcomeText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+                
+                typeWriter();
+            }
         });
     </script>
 </body>
